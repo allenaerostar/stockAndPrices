@@ -1,1 +1,1 @@
-this is the dababase folder of the app
+this is the database folder of the app
