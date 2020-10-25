@@ -1,8 +1,11 @@
 from flask import Flask, request
-
+from flask_cors import CORS
 
 app = Flask(__name__)
 
+# CORS(app,  resources={r"/*": {"origins": "*"}})     # allows all origins
+
+cors = CORS(app, resources={r"/.*": {"origins": "http://localhost:3000"}})  # only allowing our react app
 
 @app.route('/')
 def home():
