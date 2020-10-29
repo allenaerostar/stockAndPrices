@@ -16,6 +16,7 @@ class LoginForm extends React.Component{
             const loginUrl = "http://localhost:5000/login";
             const formData = new FormData(event.target);
             const requestOptions = {
+                // don't need header for FormData
                 method: 'POST',
                 body: formData,
             };
