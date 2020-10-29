@@ -20,6 +20,14 @@ Now, you could go to http://127.0.0.1:5000/ in your browser, and you should see 
 Then, you could go to http://127.0.0.1:5000/login, and give a value to 'user_name'(key). (In Postman)
 It will return a Welcome "user input"
 
+For /login GET request provide dbHost and dbPort as query string
+> http://127.0.0.1:5000/login?dbHost=localhost&dbPort=11111
+
+For /login POST request provide dbHost and dbPort as query string 
+> http://127.0.0.1:5000/login?dbHost=localhost&dbPort=11111
+
+and provide form key values pairs for keys (user_name, firt, last)
+
 
 main.py - the basic python file to create an app using flask
 
