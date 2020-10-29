@@ -21,8 +21,6 @@ def login():
     else:
         user = request.form.get('username')
         #pwd = request.form.get('password')
-        #print(user)
-        #print(pwd)
         return f"<h1>Welcome {user}!</h1>"
 
 
