@@ -1,15 +1,12 @@
 from flask import Flask, request, redirect, url_for
 from pymongo import MongoClient
-from urllib.parse import urlparse
-from urllib.parse import parse_qs
 
 app = Flask(__name__)
 
-@app.route('/Home')
-@app.route('/', methods=['POST', 'GET'])
+
+@app.route('/')
 def home():
-    if request.method == "GET":
-        return f"<h1>Home Page<h1>"
+    return "<h1>Home Page</h1>"
 
 
 @app.route('/login', methods=['POST', 'GET'])
