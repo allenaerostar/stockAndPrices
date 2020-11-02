@@ -4,7 +4,7 @@ from configuration.Origin import Origin
 
 
 app = Flask(__name__)
-app.config.from_pyfile("configuration/DevConfig.py")
+app.config.from_pyfile("configuration/Config.py")
 
 cors = CORS(app, resources={r"/.*": {"origins": Origin}})
 
