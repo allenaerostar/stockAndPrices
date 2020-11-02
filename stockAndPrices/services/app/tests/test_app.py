@@ -17,6 +17,6 @@ def test_login_page(client):
 
 # POST request to Login Page
 def test_logged_in(client):
-    res = client.post("/login", data=dict(user_name='Roberto'))
+    res = client.post("/login", data=dict(username='Roberto'))
     assert res.status_code == 200
     assert res.data == b"<h1>Welcome Roberto!</h1>"
