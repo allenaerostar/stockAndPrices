@@ -13,16 +13,12 @@ class LoginForm extends React.Component{
     handleSubmit(event) {
         event.preventDefault();
         if(validation.validateFormFields()) {
-            const loginUrl = "http://localhost:8000/login";
+            const loginUrl = "http://localhost:5000/login";
             const formData = new FormData(event.target);
             const requestOptions = {
+                // don't need header for FormData
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: {
-                    data: formData
-                }
+                body: formData,
             };
             fetch(loginUrl, requestOptions)
                 .then(
@@ -33,7 +29,7 @@ class LoginForm extends React.Component{
                         alert("Error occurred when submitting login credentials");
                     }
                 );
-        } 
+        }
         else {
             alert("Failed login validation");
         }

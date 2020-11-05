@@ -1,0 +1,10 @@
+FROM node:12
+
+WORKDIR /stock-and-prices-app
+
+COPY package.json package-lock.json ./
+RUN ["npm", "install"]
+
+COPY . ./
+
+CMD ["npm", "test", "--", "--watchAll=false"]

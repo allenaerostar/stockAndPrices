@@ -1,6 +1,9 @@
 Python version : 3.79
 
-"pip install flask" in command line to download flask
+"pip install flask" to install Flask package
+
+"pip install -U flask-cors" to install Flask-CORS package
+
 
 To run the flask server:
 In Bash:

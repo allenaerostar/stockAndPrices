@@ -1,7 +1,12 @@
-from flask import Flask, request, redirect, url_for
 from pymongo import MongoClient
+from flask import Flask, request
+from flask_cors import CORS
+from configuration.Origin import Origin
 
 app = Flask(__name__)
+app.config.from_pyfile("configuration/Config.py")
+
+cors = CORS(app, resources={r"/.*": {"origins": Origin}})
 
 
 @app.route('/')
@@ -47,5 +52,5 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host=app.config["HOST"], port=app.config["PORT"], debug = app.config["DEBUG"])
 
