@@ -12,8 +12,8 @@ Python version : 3.79
 OR
 
 In Bash:
-$ export FLASK_APP=main.py
-$ flask run
+> $ export FLASK_APP=main.py
+> flask run
 
 In CMD:
 > set FLASK_APP=main.py
