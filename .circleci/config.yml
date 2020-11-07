@@ -1,7 +1,24 @@
 version: 2.1
 orbs:
-  node: circleci/node@3.0.0
+  jira: circleci/jira@1.3.0
+jobs:
+  build-react-tests:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build Stock and Price App React Tests Image
+          path: stockAndPrices/web/stock-and-prices-app
+          command: |
+            docker build -t stock-and-prices-react-app-tests -f ./docker/stock-and-prices-tests-dockerfile .
+      - run:
+          name: Run Stock and Prices App React Tests
+          path: stockAndPrices/web/stock-and-prices-app
+          command: |
+            docker run -it --name stock-and-prices-react-app-tests stock-and-prices-react-app-tests
+      - jira/notify
+
 workflows:
-  node-tests:
+  react-tests:
     jobs:
-      - node/test
+      - build-react-tests
