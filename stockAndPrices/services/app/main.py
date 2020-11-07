@@ -1,12 +1,24 @@
 from flask import Flask, request
 from flask_cors import CORS
 from configuration.Origin import Origin
-
+from configuration.swagger import SWAGGER_URL, API_URL
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
 app.config.from_pyfile("configuration/Config.py")
 
 cors = CORS(app, resources={r"/.*": {"origins": Origin}})
+
+
+# For Swagger UI #
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Swagger UI"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT)
 
 
 @app.route('/')
