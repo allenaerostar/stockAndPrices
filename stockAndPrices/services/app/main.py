@@ -31,7 +31,6 @@ def login():
     dev_col = sample_db.developer
     if request.method == "GET":
         if dev_col.find_one({"first": "Hello"}) is None:
-            dev_col.insert_one({"first": "Hello", "last": "World"})
             rtn = ": No data with Hello World in db."
         else:
             document = dev_col.find_one({"first": "Hello"})
