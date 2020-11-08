@@ -32,11 +32,13 @@ def login():
     if request.method == "GET":
         if dev_col.find_one({"first": "Hello"}) is None:
             dev_col.insert_one({"first": "Hello", "last": "World"})
-        document = dev_col.find_one({"first": "Hello"})
-        rtn = document["first"] + " " + document["last"]
+            rtn = ": No data with Hello World in db."
+        else:
+            document = dev_col.find_one({"first": "Hello"})
+            rtn = document["first"] + " " + document["last"]
         return f"<h1>Login Page {rtn}<h1>"
     else:
-        user = request.form['user_name']
+        user = request.form['username']
         first = request.form['first']
         last = request.form['last']
         find = dev_col.find_one({"first": first, "last": last})
