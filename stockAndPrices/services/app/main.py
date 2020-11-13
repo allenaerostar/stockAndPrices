@@ -26,9 +26,17 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT)
 def home():
     return "<h1>Home Page</h1>"
 
-
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    if request.method == "GET":
+        return "<h1>Login Page</h1>"
+    else:
+        user = request.form.get('username')
+        #pwd = request.form.get('password')
+        return f"<h1>Welcome {user}!</h1>"
+
+@app.route('/dblogin', methods=['POST', 'GET'])
+def dblogin():
     rtn = ""
     db_host = request.args.get('dbHost')
     db_port = request.args.get('dbPort')
@@ -63,6 +71,7 @@ def login():
             rtn = "A document with your inputs already exist!"
 
         return f"<h1>Welcome {user}!</h1> <d>{rtn}</d>"
+
 
 
 if __name__ == "__main__":
