@@ -7,7 +7,7 @@ The stoc-services-dockerfile will be used to build the docker image to run the s
 		docker build -t stoc-services -f ./docker/stoc-services-dockerfile . 
 2. Run docker images to see the list of images that currently exist. stoc-services should be there.
 3. If the image exists, run
-        
+        docker run -it -p 5000:5000 --name stoc-services stoc-services
         
     This will now start the python application within a container.
 4. To check if the container started, run docker ps to see if stoc-services is on that list.
