@@ -1,0 +1,100 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Stock and Prices"
+    },
+    "tags": [
+        {
+            "name": "Request"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": ["Request"],
+                "summary": "Return Home Page",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "<h1>Home Page</h1>"
+                                }
+                            }
+                        }
+                    }   
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "tags": ["Request"],
+                "summary": "Return Login Page",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "<h1>Login Page</h1>"
+                                }
+                            }
+                        }
+                    }   
+                }
+            },
+            "post": {
+                "tags": ["Request"],
+                "summary": "Return User Page after Login Successfully",
+                "requestBody": {
+                    "description": "Username and Password",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref":  "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "<h1>Welcome {username}</h1>"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }   
+                }
+            }
+        }
+
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+    
+}
