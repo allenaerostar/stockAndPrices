@@ -1,29 +1,25 @@
 Python version : 3.79
 
-"pip install flask" to install Flask package
+"pip install flask==1.1.2"              to install Flask package
+"pip install pytest==6.1.1"             to install pytest package
+"pip install -U flask-cors==3.0.9"      to install Flask-CORS package
+"pip install flask_swagger_ui==3.36.0"  to install Swagger UI package
 
-"pip install -U flask-cors" to install Flask-CORS package
+"python -m pip install --upgrade pip"   to upgrade pip if needed
 
 
-To run the flask server:
-In Bash:
-$ export FLASK_APP=main.py
-$ flask run
+main.py - the python file to create an app using flask
 
-In CMD:
-> set FLASK_APP=main.py
-> flask run
+"Python main.py" to run the flask server: 
 
-In Powershell:
-> $env:FLASK_APP = "main.py"
-> flask run
+"http://127.0.0.1:5000/"            for Home Page
+"http://127.0.0.1:5000/login"       for Login Page
+"http://127.0.0.1:5000/swagger"     for Swagger UI
 
-Now, you could go to http://127.0.0.1:5000/ in your browser, and you should see the Home Page
 
-Then, you could go to http://127.0.0.1:5000/login, and give a value to 'user_name'(key). (In Postman)
-It will return a Welcome "user input"
 
-main.py - the basic python file to create an app using flask
+'pytest' or 'Python -m pytest' to run pytest and check all the testcases
+'pytest -v' to get a detailed report
 
 
 For /login GET request provide dbHost and dbPort as query string

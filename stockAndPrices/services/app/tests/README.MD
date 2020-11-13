@@ -8,9 +8,6 @@ Python version : 3.79
 'pytest -v' to get a detailed report
 
 
-
-
-
 Created a tests directory under the application root.
 Inside the tests folder, every test file should start with test_*, it will be auto-discoverable by pytest.
 
