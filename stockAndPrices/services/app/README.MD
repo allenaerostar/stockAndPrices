@@ -22,3 +22,14 @@ main.py - the python file to create an app using flask
 'pytest -v' to get a detailed report
 
 
+For /dblogin GET request provide dbHost and dbPort as query string
+> http://127.0.0.1:5000/dblogin?dbHost=localhost&dbPort=11111
+
+For /dblogin POST request provide dbHost and dbPort as query string 
+> http://127.0.0.1:5000/dblogin?dbHost=localhost&dbPort=11111
+
+and provide form key values pairs for keys (user_name, firt, last)
+
+
+
+
