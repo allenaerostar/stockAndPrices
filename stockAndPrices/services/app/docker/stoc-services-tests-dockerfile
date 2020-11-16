@@ -1,0 +1,11 @@
+FROM python:3.7.9
+
+WORKDIR /app
+
+#copy service files to container
+COPY . ./
+ 
+#install test and application dependencies
+RUN pip install -r tests/requirements.txt -r requirements.txt
+
+CMD ["python", "-m", "pytest", "-v"]
