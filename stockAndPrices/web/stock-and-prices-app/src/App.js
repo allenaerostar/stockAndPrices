@@ -2,18 +2,20 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import LoginForm from './login/loginForm';
+import SignUpForm from './login/signUpForm';
 
 function App() {
   return (
     <div className="App">
       <header>
-        <p>Stock and Prices</p>
+        <h1>Stock and Prices</h1>
       </header>
       <Switch>
       <Route exact path="/login" component={LoginForm}>
       </Route>
       <Route exact path="/" render= {() => (<div> Home Page</div>)}>
       </Route>
+      <Route exact path="/signup" component={SignUpForm} />
       </Switch>
     </div>
   );
