@@ -28,5 +28,15 @@ describe('renders elements on App Page', () => {
     expect(homePage).toBe(null);
     expect(username).toBe(null);
   });
+
+  test('renders SignUpForm', () => {
+    const { getByLabelText } = render(<MemoryRouter initialEntries={['/signup']}><App /></MemoryRouter>);
+    const username  = getByLabelText('Username:');
+    const password = getByLabelText('Password:');
+    const email = getByLabelText('Email:');
+    expect(username).toBeInTheDocument();
+    expect(password).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+  });
   
 });
