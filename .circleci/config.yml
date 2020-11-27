@@ -17,8 +17,26 @@ jobs:
           command: |
             docker run -it --name stock-and-prices-react-app-tests stock-and-prices-react-app-tests
       - jira/notify
+  build-flask-tests:
+    machine: true
+    steps: 
+      - checkout
+      - run:
+          name: Build Stock and Price Flask Tests Image
+          path: stockAndPrices/services/app
+          command: |
+            docker build -t stoc-services-tests -f ./docker/stoc-services-tests-dockerfile .
+      - run:
+          name: Run Stock and Prices Flask Tests
+          path: stockAndPrices/services/app
+          command: |
+            docker run --name stoc-services-tests stoc-services-tests 
+      - jira/notify
 
 workflows:
   react-tests:
     jobs:
       - build-react-tests
+  flask-tetss:
+    jobs:
+      - build-flask-tests
