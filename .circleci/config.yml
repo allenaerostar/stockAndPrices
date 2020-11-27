@@ -37,6 +37,6 @@ workflows:
   react-tests:
     jobs:
       - build-react-tests
-  flask-tetss:
+  flask-tests:
     jobs:
       - build-flask-tests
