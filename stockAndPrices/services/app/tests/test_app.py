@@ -25,7 +25,7 @@ def test_logged_in(client):
 def test_logged_in_failed(client):
     info = {"username":"hahahaha", "password":"12345678"}
     res = client.post("/login", data=info)
-    assert res.status_code == 200
+    assert res.status_code == 404
     assert res.data == b"Incorrect Username or Password!"
 
 
@@ -47,7 +47,7 @@ def test_signUp_Successful(client):
 def test_signUp_failed(client):
     info = {"username":"username", "password":"password"}
     res = client.post('/signUp', data=info)
-    assert res.status_code == 200
+    assert res.status_code == 404
     assert res.data == b"Username already exist! Try other username"
     
 
