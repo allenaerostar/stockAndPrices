@@ -49,7 +49,7 @@
             },
             "post": {
                 "tags": ["Request"],
-                "summary": "Return User Page after Login Successfully",
+                "summary": "Login Authentication",
                 "requestBody": {
                     "description": "Username and Password",
                     "required": true,
@@ -63,18 +63,84 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Login Successful",
                         "content": {
                             "text/plain": {
                                 "schema":{
                                     "type": "string",
-                                    "example": "<h1>Welcome {username}</h1>"
+                                    "example": "Login Successfully"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "User not found"
+                        "description": "Incorrect Username or Password!",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "Incorrect Username or Password!"
+                                }
+                            }
+                        }
+                    }   
+                }
+            }
+        },
+        "/signUp": {
+            "get": {
+                "tags": ["Request"],
+                "summary": "Return Sign Up Page",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "<h1>Sign Up Page</h1>"
+                                }
+                            }
+                        }
+                    }   
+                }
+            },
+            "post": {
+                "tags": ["Request"],
+                "summary": "Create a new account",
+                "requestBody": {
+                    "description": "Username and Password",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref":  "#/components/schemas/NewUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Account Created Successful",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "Account Created. Please Sign In"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Username already exist!",
+                        "content": {
+                            "text/plain": {
+                                "schema":{
+                                    "type": "string",
+                                    "example": "Username already exist! Try other username"
+                                }
+                            }
+                        }
                     }   
                 }
             }
@@ -90,6 +156,20 @@
                         "type": "string"
                     },
                     "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NewUser":{
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
                         "type": "string"
                     }
                 }

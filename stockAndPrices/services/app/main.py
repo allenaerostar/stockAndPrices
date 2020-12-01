@@ -35,7 +35,7 @@ def login():
         user = request.form.get('username')
         pwd = request.form.get('password')
         if user not in db or pwd != db[user][0]:
-            return "Incorrect Username or Password!"
+            return "Incorrect Username or Password!", 404
         else:
             return "Login Successfully"
 
@@ -48,7 +48,7 @@ def signUp():
         pwd = request.form.get('password')
         email = request.form.get('email')
         if user in db:
-            return "Username already exist! Try other username"
+            return "Username already exist! Try other username", 404
         else:
             db[user] = [pwd, email]
             return "Account Created. Please Sign In"
