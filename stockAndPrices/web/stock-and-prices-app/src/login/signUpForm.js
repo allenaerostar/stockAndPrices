@@ -25,15 +25,15 @@ class SignUpForm extends React.Component{
             };
             fetch(signUpUrl, requestOptions)
                 .then(res => res.text())
-                .then(data => {
-                    alert(data)
+                .then(
+                    (data) => {
+                    console.log(data)
                     if (data === "Account Created. Please Sign In") {
                         this.setState({redirectToSignIn: true})
                     }
-                })
-                .catch(error => {
+                },
+                (error) => {
                     console.log("Error: ", error)
-                    alert("Error occurred when submitting SignUp credentials");
                 })
         }
         else {
@@ -45,7 +45,6 @@ class SignUpForm extends React.Component{
     handleSignIn(event){
         event.preventDefault();
         this.setState({redirectToSignIn: true})
-        alert("Redirect to Sign In Page")
     }
 
     render() {

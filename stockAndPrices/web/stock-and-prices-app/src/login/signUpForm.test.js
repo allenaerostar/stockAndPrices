@@ -1,5 +1,8 @@
 import React from 'react';
-import { getByLabelText, getByText, render} from '@testing-library/react';
+import { getByLabelText, getByText, render, fireEvent, screen } from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom'
+import '@testing-library/jest-dom/extend-expect'
+import App from '../App';
 import SignUpForm from './signUpForm.js';
 
 describe('renders sign up form', () => {
@@ -14,5 +17,13 @@ describe('renders sign up form', () => {
     });
 });
 
-
+describe('Redirect buttons functionality', () => {
+    test('test Sign In button will redirect to Login Page', async () => {
+        const signUpFormElement = render(<MemoryRouter initialEntries={['/signup']}><App /></MemoryRouter>);
+        fireEvent.click(signUpFormElement.getByText("Sign In"));
+        expect(screen.getByText('Sign Up')).toBeInTheDocument();
+        expect(screen.getByText('Login')).toBeInTheDocument();
+        expect(screen.queryByText('Email:')).not.toBeInTheDocument();
+    })
+});
 

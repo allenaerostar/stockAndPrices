@@ -8,7 +8,10 @@ class LoginForm extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            redirectToSignUp: false
+            redirectToSignUp: false,
+            username: null,
+            passowrd: null,
+            email: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
@@ -26,12 +29,12 @@ class LoginForm extends React.Component{
             };
             fetch(loginUrl, requestOptions)
                 .then(res => res.text())
-                .then(data => {
-                    alert(data)
-                })
-                .catch(error => {
+                .then(
+                    (data )=> {
+                    console.log(data)
+                },
+                (error) => {
                     console.log("Error:", error)
-                    alert("Error occurred when submitting login credentials");
                 }) 
         }
         else {
@@ -42,7 +45,6 @@ class LoginForm extends React.Component{
     handleSignUp(event){
         event.preventDefault();
         this.setState({redirectToSignUp: true})
-        alert("Redirect to sign up page");
     }
 
     render() {
