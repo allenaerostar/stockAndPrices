@@ -16,7 +16,7 @@ describe('renders login form', () => {
 });
 
 describe('Redirect buttons functionality', () => {
-    test('test Sign In button will redirect to Login Page', async () => {
+    test('test Sign Up button will redirect to Sign Up Page', async () => {
         const signUpFormElement = render(<MemoryRouter initialEntries={['/login']}><App /></MemoryRouter>);
         fireEvent.click(signUpFormElement.getByText("Sign Up"));
         expect(screen.getByText('Sign In')).toBeInTheDocument();
