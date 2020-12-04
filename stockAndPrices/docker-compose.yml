@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+
+  react_app:
+    build:
+      context: ./web/stock-and-prices-app
+      dockerfile: docker/stock-and-prices-dockerfile
+    image: stock-and-prices-react-app
+    ports: 
+      - "3000:3000"
+    container_name: stock-and-prices-react-app
+    stdin_open: true
+    networks:
+      - stock-and-prices-application
+
+  flask_services:
+    build:
+      context: ./services/app
+      dockerfile: docker/stoc-services-dockerfile
+    image: stoc-services
+    expose:
+      - "5000"
+    container_name: stoc-services
+    networks:
+      - stock-and-prices-application
+      - stock-and-prices-backend
+    depends_on: 
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    volumes: 
+      - db-data:/data/db
+    container_name: mongodb
+    networks: 
+      - stock-and-prices-backend
+
+networks: 
+  stock-and-prices-application:
+  stock-and-prices-backend:
+
+volumes: 
+  db-data:
