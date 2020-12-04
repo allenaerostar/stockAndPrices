@@ -13,9 +13,9 @@ function App() {
       <Switch>
       <Route exact path="/login" component={LoginForm}>
       </Route>
+      <Route exact path="/signup" component={SignUpForm} />
       <Route exact path="/" render= {() => (<div> Home Page</div>)}>
       </Route>
-      <Route exact path="/signup" component={SignUpForm} />
       </Switch>
     </div>
   );
