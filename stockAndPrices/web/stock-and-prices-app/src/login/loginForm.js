@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import Button from '../common/components/button/button';
 let validation = require('../common/util/validation.js');
 
@@ -6,6 +7,12 @@ class LoginForm extends React.Component{
 
     constructor(props) {
         super(props);
+        this.state = {
+            redirectToSignUp: false,
+            username: null,
+            password: null,
+            email: null
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
     }
@@ -21,14 +28,14 @@ class LoginForm extends React.Component{
                 body: formData,
             };
             fetch(loginUrl, requestOptions)
+                .then(res => res.text())
                 .then(
-                    (result) => {
-                        alert("login successful");
-                    },
-                    (error) => { 
-                        alert("Error occurred when submitting login credentials");
-                    }
-                );
+                    (data )=> {
+                    console.log(data)
+                },
+                (error) => {
+                    console.log("Error:", error)
+                }) 
         }
         else {
             alert("Failed login validation");
@@ -37,21 +44,20 @@ class LoginForm extends React.Component{
 
     handleSignUp(event){
         event.preventDefault();
-        const signUpUrl = "http://localhost:3000/signUp";
-        fetch(signUpUrl)
-            .then(
-                (result) => {
-                    alert("Redirect to sign up page");
-                },
-                (error) => {
-                    alert("Failed to redirect to sign up page");
-                }
-            );
+        this.setState({redirectToSignUp: true})
     }
 
     render() {
+        const redirectTo = this.state.redirectToSignUp;
+        if (redirectTo === true) {
+            return <Redirect to="/signUp" />
+        }
         return (
             <form name="loginForm" onSubmit={this.handleSubmit}>
+                <div>
+                    Sign In
+                </div>
+                <br />
                 <label>
                     Username:
                     <input type="text" name="username" minLength="8" maxLength="12" placeholder="Username" required>
@@ -64,10 +70,13 @@ class LoginForm extends React.Component{
                     </input>
                 </label>
                 <br></br>
-                <Button labelText="Sign Up" onClick={this.handleSignUp}>
-                </Button>
                 <Button labelText="Login" buttonType="submit">
                 </Button>
+                <div> 
+                    Create an account?
+                    <Button labelText="Sign Up" onClick={this.handleSignUp}>
+                    </Button>
+                </div>
             </form>
         );
     }

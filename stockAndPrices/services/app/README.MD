@@ -1,7 +1,7 @@
 Python version : 3.79
 
 "pip install flask==1.1.2"              to install Flask package
-"pip install pytest==6.1.1"             to install pytest package
+"pip install pytest==6.1.2"             to install pytest package
 "pip install -U flask-cors==3.0.9"      to install Flask-CORS package
 "pip install flask_swagger_ui==3.36.0"  to install Swagger UI package
 
