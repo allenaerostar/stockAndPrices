@@ -21,6 +21,7 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
 )
 app.register_blueprint(SWAGGERUI_BLUEPRINT)
 
+db = {'username': ['password', 'email@gmail.com']}
 
 @app.route('/')
 def home():
@@ -32,8 +33,25 @@ def login():
         return "<h1>Login Page</h1>"
     else:
         user = request.form.get('username')
-        #pwd = request.form.get('password')
-        return f"<h1>Welcome {user}!</h1>"
+        pwd = request.form.get('password')
+        if user not in db or pwd != db[user][0]:
+            return "Incorrect Username or Password!", 404
+        else:
+            return "Login Successfully"
+
+@app.route('/signUp', methods=['POST', 'GET'])
+def signUp():
+    if request.method == "GET":
+        return "<h1>Sign Up Page</h1>"
+    else:
+        user = request.form.get('username')
+        pwd = request.form.get('password')
+        email = request.form.get('email')
+        if user in db:
+            return "Username already exist! Try other username", 404
+        else:
+            db[user] = [pwd, email]
+            return "Account Created. Please Sign In"
 
 @app.route('/dblogin', methods=['POST', 'GET'])
 def dblogin():
