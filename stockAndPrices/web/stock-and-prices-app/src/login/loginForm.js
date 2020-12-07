@@ -13,7 +13,7 @@ class LoginForm extends React.Component{
     handleSubmit(event) {
         event.preventDefault();
         if(validation.validateFormFields()) {
-            const loginUrl = "http://localhost:5000/login";
+            const loginUrl = "/login";
             const formData = new FormData(event.target);
             const requestOptions = {
                 // don't need header for FormData
@@ -37,7 +37,7 @@ class LoginForm extends React.Component{
 
     handleSignUp(event){
         event.preventDefault();
-        const signUpUrl = "http://localhost:3000/signUp";
+        const signUpUrl = "/signUp";
         fetch(signUpUrl)
             .then(
                 (result) => {
