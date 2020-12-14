@@ -10,7 +10,6 @@ app.config.from_pyfile("configuration/Config.py")
 
 cors = CORS(app, resources={r"/.*": {"origins": Origin}})
 
-
 # For Swagger UI #
 SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     SWAGGER_URL,
@@ -26,6 +25,7 @@ db = {'username': ['password', 'email@gmail.com']}
 @app.route('/')
 def home():
     return "<h1>Home Page</h1>"
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -56,6 +56,7 @@ def signUp():
 @app.route('/dblogin', methods=['POST', 'GET'])
 def dblogin():
     rtn = ""
+    http_code = 200
     db_host = request.args.get('dbHost')
     db_port = request.args.get('dbPort')
     try:
@@ -64,17 +65,18 @@ def dblogin():
     except:
         rtn = "Connection Error! Please provide valid dbHost and dbPort as query strings and make sure your" \
               " mongoDB server is running."
-        return f"<h1>{rtn}<h1>"
+        return f"<h1>{rtn}<h1>", 500
 
     sample_db = client.sampleDB
     dev_col = sample_db.developer
     if request.method == "GET":
         if dev_col.find_one({"first": "Hello"}) is None:
-            rtn = ": No data with Hello World in db."
+            rtn = "No data with Hello World in db."
+            http_code = 209
         else:
             document = dev_col.find_one({"first": "Hello"})
             rtn = document["first"] + " " + document["last"]
-        return f"<h1>Login Page {rtn}<h1>"
+        return f"<h1>{rtn}<h1>", http_code
     else:
         user = request.form['username']
         first = request.form['first']
@@ -87,11 +89,9 @@ def dblogin():
                   " and its corresponding object _id is " + str(doc.inserted_id)
         else:
             rtn = "A document with your inputs already exist!"
-
-        return f"<h1>Welcome {user}!</h1> <d>{rtn}</d>"
-
+            http_code = 210
+        return f"<h1>Welcome {user}!</h1> <d>{rtn}</d>", http_code
 
 
 if __name__ == "__main__":
-    app.run(host=app.config["HOST"], port=app.config["PORT"], debug = app.config["DEBUG"])
-
+    app.run(host=app.config["HOST"], port=app.config["PORT"], debug=app.config["DEBUG"])
