@@ -15,6 +15,8 @@ def gamePriceByTitle():
     url = api_url + f"/games?title={game_title}"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
+    if response.status_code != 200:
+        return f"Get request from {url} failed.", 500
     resp = json.loads(response.text)
 
     all_ids = ''
@@ -44,26 +46,33 @@ def findGamePriceById(game_ids, prices):
     url = api_url + f"/games?ids={game_ids}"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
+    if response.status_code != 200:
+        return f"Get request from {url} failed.", 500
     resp = json.loads(response.text)
 
     for gameid in resp:
         game_name = resp[gameid]['info']['title']
         game_deals = resp[gameid]['deals']
-        prices[gameid] = {game_name: []}
-        for deal in game_deals:
 
+        game_info = {}
+        game_info["name"] = game_name
+        game_info['stores'] = []
+        for deal in game_deals:
             if deal['storeID'] not in all_stores:
                 continue
-
             elif all_stores[deal['storeID']][1] == '0':
                 continue
-            prices[gameid][game_name].append([ 
-                                            "store: " + all_stores[deal['storeID']][0], 
-                                            "current price: " + deal['price'], 
-                                            "original price: " + deal['retailPrice'], 
-                                            "saving: " + "{:.2f}".format(float(deal['savings'])) + '%'])
-        if not prices[gameid][game_name]:
-            prices.pop(gameid)
+
+            store_info = {}
+            store_info["store"] = all_stores[deal['storeID']][0]
+            store_info["cur_price"] = deal['price']
+            store_info["org_price"] = deal['retailPrice']
+            store_info["saving"] = "{:.2f}".format(float(deal['savings'])) + '%'
+            game_info["stores"].append(store_info)
+
+        if game_info["stores"]:
+            prices[gameid] = game_info
+
     return
 
 
@@ -85,6 +94,8 @@ def fetch_stores_info():
     url = api_url + "/stores"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
+    if response.status_code != 200:
+        return f"Get request from {url} failed.", 500
     resp = json.loads(response.text)
     
     stores = {}
@@ -98,7 +109,7 @@ all_stores = fetch_stores_info()
 
 
 
-#### Deals ####
+
 
 
 

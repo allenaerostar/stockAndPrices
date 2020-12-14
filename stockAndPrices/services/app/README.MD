@@ -15,6 +15,7 @@ main.py - the python file to create an app using flask
 
 "http://127.0.0.1:5000/"            for Home Page
 "http://127.0.0.1:5000/login"       for Login Page
+"http://127.0.0.1:5000/signUp"      for Sign Up Page
 "http://127.0.0.1:5000/swagger"     for Swagger UI
 
 
