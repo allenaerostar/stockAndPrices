@@ -76,7 +76,6 @@ def dblogin():
         else:
             document = dev_col.find_one({"first": "Hello"})
             rtn = document["first"] + " " + document["last"]
-            http_code = 200
         return f"<h1>{rtn}<h1>", http_code
     else:
         user = request.form['username']
@@ -88,7 +87,6 @@ def dblogin():
             doc = dev_col.insert_one({"first": first, "last": last})
             rtn = "A document is inserted with your inputs: '" + first + " " + last + \
                   " and its corresponding object _id is " + str(doc.inserted_id)
-            http_code = 200
         else:
             rtn = "A document with your inputs already exist!"
             http_code = 210
