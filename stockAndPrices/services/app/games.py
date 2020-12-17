@@ -11,14 +11,13 @@ api_url = "https://www.cheapshark.com/api/1.0"
 # /title?name=somename
 @games_blueprint.route('/title')
 def gamePriceByTitle():
-    game_title = request.args.get('name', '')
+    game_title = validation(request.args.get('name', ''))
     url = api_url + f"/games?title={game_title}"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
     if response.status_code != 200:
         return f"Get request from {url} failed.", 500
     resp = json.loads(response.text)
-
     all_ids = ''
     all_prices = {}
     count = 0
@@ -39,6 +38,17 @@ def gamePriceByTitle():
         findGamePriceById(all_ids, all_prices)
     return all_prices
 
+def validation(title):
+    if not title:
+        return ""
+    
+    if not title.isalnum():
+        ret = ''
+        for char in title:
+            if char.isalnum():
+                ret += char
+        return ret
+    return title
 
 # find prices for each game in each store by gameID. (max 25 game id per API call)
 def findGamePriceById(game_ids, prices):
@@ -62,7 +72,6 @@ def findGamePriceById(game_ids, prices):
                 continue
             elif all_stores[deal['storeID']][1] == '0':
                 continue
-
             store_info = {}
             store_info["store"] = all_stores[deal['storeID']][0]
             store_info["cur_price"] = deal['price']
@@ -72,7 +81,6 @@ def findGamePriceById(game_ids, prices):
 
         if game_info["stores"]:
             prices[gameid] = game_info
-
     return
 
 
@@ -85,7 +93,6 @@ def fetch_by_game_id():
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
     resp = json.loads(response.text)
     return resp
-
 
 
 #### Stores ####
