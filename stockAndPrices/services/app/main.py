@@ -4,6 +4,7 @@ from flask_cors import CORS
 from configuration.Origin import Origin
 from configuration.swagger import SWAGGER_URL, API_URL
 from flask_swagger_ui import get_swaggerui_blueprint
+from games import games_blueprint
 
 app = Flask(__name__)
 app.config.from_pyfile("configuration/Config.py")
@@ -19,6 +20,10 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     }
 )
 app.register_blueprint(SWAGGERUI_BLUEPRINT)
+
+# For CheapShark API #
+app.register_blueprint(games_blueprint)
+
 
 db = {'username': ['password', 'email@gmail.com']}
 
@@ -94,4 +99,4 @@ def dblogin():
 
 
 if __name__ == "__main__":
-    app.run(host=app.config["HOST"], port=app.config["PORT"], debug=app.config["DEBUG"])
+    app.run(host=app.config["HOST"], port=app.config["PORT"], debug = app.config["DEBUG"], use_reloader=False)

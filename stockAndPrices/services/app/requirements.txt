@@ -2,3 +2,4 @@ Flask==1.1.2
 pymongo==3.7.2
 flask-cors==3.0.9
 flask_swagger_ui==3.36.0
+requests==2.25.0
