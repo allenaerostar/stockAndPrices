@@ -11,7 +11,7 @@ api_url = "https://www.cheapshark.com/api/1.0"
 # /title?name=somename
 @games_blueprint.route('/title')
 def gamePriceByTitle():
-    game_title = validate(request.args.get('name', ''))
+    game_title = request.args.get('name')
     url = api_url + f"/games?title={game_title}"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
@@ -38,17 +38,6 @@ def gamePriceByTitle():
         findGamePriceById(all_ids, all_prices)
     return all_prices
 
-def validate(title):
-    if not title:
-        return ""
-    
-    if not title.isalnum():
-        ret = ''
-        for char in title:
-            if char.isalnum():
-                ret += char
-        return ret
-    return title
 
 # find prices for each game in each store by gameID. (max 25 game id per API call)
 def findGamePriceById(game_ids, prices):
@@ -87,7 +76,7 @@ def findGamePriceById(game_ids, prices):
 # /ids?gameids=someids
 @games_blueprint.route('/ids')
 def fetch_by_game_id():
-    game_ids = request.args.get('gameids', '')
+    game_ids = request.args.get('gameids')
     url = api_url + f"/games?ids={game_ids}"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
