@@ -5,9 +5,16 @@ from configuration.Origin import Origin
 from configuration.swagger import SWAGGER_URL, API_URL
 from flask_swagger_ui import get_swaggerui_blueprint
 from games import games_blueprint
+import logging
+from configuration.Loggings import fname, fmat
+
 
 app = Flask(__name__)
 app.config.from_pyfile("configuration/Config.py")
+
+logging.basicConfig(filename=fname, 
+                    level=logging.INFO, 
+                    format=fmat)
 
 cors = CORS(app, resources={r"/.*": {"origins": Origin}})
 
@@ -30,7 +37,6 @@ db = {'username': ['password', 'email@gmail.com']}
 @app.route('/')
 def home():
     return "<h1>Home Page</h1>"
-
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
