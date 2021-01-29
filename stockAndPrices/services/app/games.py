@@ -7,7 +7,7 @@ games_blueprint = Blueprint("games", __name__, url_prefix="/games")
 api_url = "https://www.cheapshark.com/api/1.0"
 
 # memcache
-client = base.Client(('localhost', 11211))
+client = base.Client(('memcached', 11211))
 
 
 #### Games ####
@@ -20,7 +20,7 @@ def gamePriceByTitle():
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
     if response.status_code != 200:
-        current_app.logger.error(f"Get request from {url} failed.")
+        current_app.logger.warning(f"Get request from {url} failed.")
         return "No Result", 500
     resp = json.loads(response.text)
     if not resp:
@@ -49,7 +49,7 @@ def findGamePriceById(game_ids, prices):
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
     if response.status_code != 200:
-        current_app.logger.error(f"Get request from {url} failed.")
+        current_app.logger.warning(f"Get request from {url} failed.")
         return
     resp = json.loads(response.text)
     if not resp:

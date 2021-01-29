@@ -6,14 +6,14 @@ from configuration.swagger import SWAGGER_URL, API_URL
 from flask_swagger_ui import get_swaggerui_blueprint
 from games import games_blueprint
 import logging
-from configuration.Loggings import fname, fmat
+from configuration.Loggings import fname, fmat, level
 
 
 app = Flask(__name__)
 app.config.from_pyfile("configuration/Config.py")
 
 logging.basicConfig(filename=fname, 
-                    level=logging.INFO, 
+                    level=level,    
                     format=fmat)
 
 cors = CORS(app, resources={r"/.*": {"origins": Origin}})
