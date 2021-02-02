@@ -124,31 +124,10 @@ def get_stores_from_memc():
         result = client.get('games_stores')
         if not result:
             updated_stores_info()
-        result = client.get('games_stores')
-        res = json.loads(result.text)
+            result = client.get('games_stores')
+        res = json.loads(result.decode('utf-8').replace("'", '"'))
         return res
-    except Exception:
+    except Exception as e:
         current_app.logger.warning('Memcached error, fetching stores from API')
+        current_app.logger.warning(e)
         return fetch_stores_info()
-    
-
-
-
-@games_blueprint.route('/tests')
-def get_memc():
-    try:
-        result = client.get('games_stores')
-        if not result:
-            updated_stores_info()
-        result = client.get('games_stores')
-        res = json.loads(result.text)
-        return res
-    except Exception:
-        current_app.logger.warning('Memcached error, fetching stores from API')
-        return fetch_stores_info()
-
-
-
-
-
-
