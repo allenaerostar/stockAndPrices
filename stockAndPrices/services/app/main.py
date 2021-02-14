@@ -81,7 +81,7 @@ def signUp():
                 "password": pwd,
                 "email": email
             })
-            return "Account Created. Please Sign In With Your Credentials."
+            return "Account Created. Please Sign In With Your Credentials.", 201
 
 if __name__ == "__main__":
     app.run(host=app.config["HOST"], port=app.config["PORT"], debug = app.config["DEBUG"], use_reloader=False)

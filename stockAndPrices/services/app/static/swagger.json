@@ -71,6 +71,17 @@
                     }
                 },
                 "responses": {
+                    "500": {
+                        "description": "Connection Error",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Connection Error! Internal Server Error."
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "Login Successful",
                         "content": {
@@ -82,7 +93,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "401": {
                         "description": "Incorrect Username or Password!",
                         "content": {
                             "text/plain": {
@@ -133,7 +144,18 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "500": {
+                        "description": "Connection Error",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Connection Error! Internal Server Error."
+                                }
+                            }
+                        }
+                    },
+                    "201": {
                         "description": "Account Created Successful",
                         "content": {
                             "text/plain": {
@@ -144,7 +166,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "200": {
                         "description": "Username already exist!",
                         "content": {
                             "text/plain": {
