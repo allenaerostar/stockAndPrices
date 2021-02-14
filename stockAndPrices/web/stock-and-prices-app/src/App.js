@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
+import GameSearch from './GameSearch/GameSearch';
 import LoginForm from './login/loginForm';
 import SignUpForm from './login/signUpForm';
 
@@ -16,6 +17,7 @@ function App() {
       <Route exact path="/signup" component={SignUpForm} />
       <Route exact path="/" render= {() => (<div> Home Page</div>)}>
       </Route>
+      <Route exact path="/gameSearch" component={GameSearch} />
       </Switch>
     </div>
   );
