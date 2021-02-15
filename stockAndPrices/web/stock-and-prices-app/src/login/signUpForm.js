@@ -16,7 +16,7 @@ class SignUpForm extends React.Component{
     handleSubmit(event) {
         event.preventDefault();
         if(validation.validateFormFields()) {
-            const signUpUrl = "http://localhost:5000/signUp";
+            const signUpUrl = "/signUp";
             const formData = new FormData(event.target);
             const requestOptions = {
                 // don't need header for FormData
