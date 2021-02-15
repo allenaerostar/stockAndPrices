@@ -71,6 +71,17 @@
                     }
                 },
                 "responses": {
+                    "500": {
+                        "description": "Connection Error",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Connection Error! Internal Server Error."
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "Login Successful",
                         "content": {
@@ -82,7 +93,7 @@
                             }
                         }
                     },
-                    "404": {
+                    "401": {
                         "description": "Incorrect Username or Password!",
                         "content": {
                             "text/plain": {
@@ -133,7 +144,18 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "500": {
+                        "description": "Connection Error",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Connection Error! Internal Server Error."
+                                }
+                            }
+                        }
+                    },
+                    "201": {
                         "description": "Account Created Successful",
                         "content": {
                             "text/plain": {
@@ -144,144 +166,13 @@
                             }
                         }
                     },
-                    "404": {
+                    "200": {
                         "description": "Username already exist!",
                         "content": {
                             "text/plain": {
                                 "schema": {
                                     "type": "string",
                                     "example": "Username already exist! Try other username"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/dblogin": {
-            "get": {
-                "tags": [
-                    "SignUp/Login"
-                ],
-                "summary": "When it is successfully connecting to db, show Hello World if key value pair exist in db else indicate Hello World not exist in db",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "dbHost",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The hostname of the db instance."
-                    },
-                    {
-                        "in": "query",
-                        "name": "dbPort",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The port to connect to the db instance."
-                    }
-                ],
-                "responses": {
-                    "209": {
-                        "description": "db connection is OK, but Hello World key-value pair not found",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "<h1> No data with Hello World in db.</h1>"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "db connection is OK and Hello World key-value pair is found",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "<h1>Hello World</h1>"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "<h1>Connection Error! Please provide valid dbHost and dbPort as query strings and make sure your mongoDB server is running. </h1>"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "SignUp/Login"
-                ],
-                "summary": "Insert into db with user input first and last",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "dbHost",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The hostname of the db instance."
-                    },
-                    {
-                        "in": "query",
-                        "name": "dbPort",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "The port to connect to the db instance."
-                    }
-                ],
-                "requestBody": {
-                    "description": "Username, first name and last name",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/dbPostUser"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "<h1>Welcome {username}!</h1>\n<d>A document is inserted with your inputs: '{first} {last} and its corresponding object _id is 5fd5b615044f620009e74398</d>"
-                                }
-                            }
-                        }
-                    },
-                    "210": {
-                        "description": "OK",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "<h1>Welcome {username}!</h1>\n<d>A document with your inputs already exist!</d>"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "<h1>Connection Error! Please provide valid dbHost and dbPort as query strings and make sure your mongoDB server is running. </h1>"
                                 }
                             }
                         }
