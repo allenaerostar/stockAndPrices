@@ -35,6 +35,15 @@ services:
     networks: 
       - stock-and-prices-backend
 
+  memcached:
+    image: memcached:latest
+    expose:
+      - "11211"
+    container_name: memcached
+    networks:
+      - stock-and-prices-backend
+    command: ["memcached"]
+
 networks: 
   stock-and-prices-application:
   stock-and-prices-backend:

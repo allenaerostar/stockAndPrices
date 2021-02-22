@@ -5,13 +5,12 @@ Python version : 3.79
 "pip install -U flask-cors==3.0.9"      to install Flask-CORS package
 "pip install flask_swagger_ui==3.36.0"  to install Swagger UI package
 "pip install requests==2.25.0"          to install python requests package
+"pip install pymemcache=3.4.0"          to install python pymemcache package
 
 "python -m pip install --upgrade pip"   to upgrade pip if needed
 
 
-main.py - the python file to create an app using flask
-
-"Python main.py" to run the flask server: 
+"Python main.py" to run the flask server:
 
 "http://127.0.0.1:5000/"            for Home Page
 "http://127.0.0.1:5000/login"       for Login Page

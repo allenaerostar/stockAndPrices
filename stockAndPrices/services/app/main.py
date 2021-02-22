@@ -5,10 +5,19 @@ from configuration.swagger import SWAGGER_URL, API_URL
 from util.dbUtility import getMongoDbClient
 from flask_swagger_ui import get_swaggerui_blueprint
 from games import games_blueprint
+import logging
+from configuration.Loggings import log_fname, log_fmat, log_level
+
 
 app = Flask(__name__)
 app.config.from_pyfile("configuration/Config.py")
 
+# Logging #
+logging.basicConfig(filename=log_fname,
+                    format=log_fmat)
+app.logger.setLevel(log_level)
+
+# CORS #
 cors = CORS(app, resources={r"/.*": {"origins": Origin}})
 
 # For Swagger UI #
@@ -28,7 +37,6 @@ app.register_blueprint(games_blueprint)
 @app.route('/')
 def home():
     return "<h1>Home Page</h1>"
-
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
