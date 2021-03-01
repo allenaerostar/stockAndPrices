@@ -7,7 +7,8 @@ class SignUpForm extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            redirectToSignIn: false
+            redirectToSignIn: false,
+            formError: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSignIn = this.handleSignIn.bind(this);
@@ -15,7 +16,12 @@ class SignUpForm extends React.Component{
 
     handleSubmit(event) {
         event.preventDefault();
-        if(validation.validateFormFields()) {
+        this.setState({formError: ""})
+        let usname = event.target.elements.username.value
+        let pwd = event.target.elements.password.value
+        let ema = event.target.elements.email.value
+        let validate = validation.validateFormFields(usname, pwd, ema)
+        if(validate === "true") {
             const signUpUrl = "/signUp";
             const formData = new FormData(event.target);
             const requestOptions = {
@@ -27,17 +33,17 @@ class SignUpForm extends React.Component{
                 .then(res => res.text())
                 .then(
                     (data) => {
-                    console.log(data)
-                    if (data === "Account Created. Please Sign In") {
+                    if (data === "Account Created. Please Sign In With Your Credentials.") {
                         this.setState({redirectToSignIn: true})
                     }
+                    this.setState({formError: data})
                 },
                 (error) => {
                     console.log("Error: ", error)
                 })
         }
         else {
-            alert("Failed login validation");
+            this.setState({formError: validate})
         }
         
     }
@@ -72,13 +78,16 @@ class SignUpForm extends React.Component{
                     Email:
                     <input type="email" name="email" placeholder="Email" required />
                 </label>
-                <br />
+                <div>
+                    {this.state.formError}
+                </div>
                 <Button labelText="Create Account" buttonType="submit" />
                 <div>
                     Already have an account?
                     <Button labelText="Sign In" onClick={this.handleSignIn} />
                 </div>
             </form>
+
         )
     }
 }

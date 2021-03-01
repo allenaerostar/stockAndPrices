@@ -15,9 +15,9 @@ function App() {
       <Route exact path="/login" component={LoginForm}>
       </Route>
       <Route exact path="/signup" component={SignUpForm} />
+      <Route exact path="/gameSearch" component={GameSearch} />
       <Route exact path="/" render= {() => (<div> Home Page</div>)}>
       </Route>
-      <Route exact path="/gameSearch" component={GameSearch} />
       </Switch>
     </div>
   );
