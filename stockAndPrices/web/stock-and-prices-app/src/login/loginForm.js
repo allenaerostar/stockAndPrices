@@ -9,9 +9,6 @@ class LoginForm extends React.Component{
         super(props);
         this.state = {
             redirectToSignUp: false,
-            username: null,
-            password: null,
-            email: null,
             formError: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);

@@ -91,7 +91,7 @@ def signUp():
         if accounts.find_one(userInfo):
             return "Username already exist! Try another username.", 200
         elif accounts.find_one(emailInfo):
-            return "Email already used! Try another email.", 200
+            return "Email already exist! Try another email.", 200
         else:
             new_user = accounts.insert_one({
                 "username": user,
