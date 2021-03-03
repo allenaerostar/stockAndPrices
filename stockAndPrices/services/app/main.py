@@ -116,7 +116,7 @@ def validate(username, password, email, signUp):
 
         # the regex means "Has only one @, at least one character before the @, before the period and after it"
         if not re.search('^[^@]+@[^@]+\.[^@]+$', email):
-            return "Not a valid email address"
+            return "Incorrect email format"
     return "true"
 
 if __name__ == "__main__":

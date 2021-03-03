@@ -14,7 +14,7 @@ function validateFormFields(username, password, email) {
     // email check
     // if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)){
     if (!/^\S+@\S+$/.test(email)){
-        return "Not a valid email address"
+        return "Incorrect email format"
     }
     return "true";
 }
