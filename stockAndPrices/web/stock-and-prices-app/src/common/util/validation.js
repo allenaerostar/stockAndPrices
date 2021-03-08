@@ -12,8 +12,7 @@ function validateFormFields(username, password, email) {
         return "Password should include capital letter and number"
     }
     // email check
-    // if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)){
-    if (!/^\S+@\S+$/.test(email)){
+    if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)){
         return "Incorrect email format"
     }
     return "true";
