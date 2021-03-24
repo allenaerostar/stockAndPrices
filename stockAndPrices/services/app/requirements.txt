@@ -4,3 +4,5 @@ flask-cors==3.0.9
 flask_swagger_ui==3.36.0
 requests==2.25.0
 pymemcache==3.4.0
+mongosanitizer==0.0.1
+flask-praetorian==1.0.0
