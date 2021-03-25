@@ -33,6 +33,8 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT)
 # For CheapShark API #
 app.register_blueprint(games_blueprint)
 
+# validation constant
+successful = 'true'
 
 @app.route('/')
 def home():
@@ -46,8 +48,9 @@ def login():
         user = request.form.get('username')
         pwd = request.form.get('password')
         val = validate(user,pwd,'',False)
-        if val != 'true':
+        if successful != val:
             return val, 200
+        return val
 
         client = getMongoDbClient()
 
@@ -75,9 +78,9 @@ def signUp():
         pwd = request.form.get('password')
         email = request.form.get('email')
         val = validate(user,pwd,email,True)
-        if val != 'true':
+        if successful != val:
             return val, 200
-        
+        return val
         client = getMongoDbClient()
         if client is None:
             return "Connection Error! Internal Server Error.", 500
