@@ -6,10 +6,9 @@ from util.dbUtility import getMongoDbClient
 from mongosanitizer.sanitizer import sanitize
 from flask_swagger_ui import get_swaggerui_blueprint
 from games import games_blueprint
-import logging
+import logging, re
 from configuration.Loggings import log_fname, log_fmat, log_level
 import flask_praetorian
-
 
 
 app = Flask(__name__)
@@ -40,6 +39,8 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT)
 # For CheapShark API #
 app.register_blueprint(games_blueprint)
 
+# validation constant
+successful = 'true'
 
 @app.route('/')
 def home():
@@ -50,8 +51,9 @@ def login():
     user = request.form.get('username')
     pwd = request.form.get('password')
     val = validate(user,pwd,'',False)
-    if val != 'true':
+    if successful != val:
         return val, 200
+    return val
 
     client = getMongoDbClient()
 
@@ -69,16 +71,17 @@ def login():
         return "Incorrect Username or Password!", 401
     else:
         return "Login Successfully", 200
+        
 
-@app.route('/signUp', methods=['POST'])
+@app.route('/signUp', methods=['POST', 'GET'])
 def signUp():
     user = request.form.get('username')
     pwd = request.form.get('password')
     email = request.form.get('email')
     val = validate(user,pwd,email,True)
-    if val != 'true':
+    if successful != val:
         return val, 200
-    
+    return val
     client = getMongoDbClient()
     if client is None:
         return "Connection Error! Internal Server Error.", 500
@@ -100,6 +103,8 @@ def signUp():
             "email": email
         })
         return "Account Created. Please Sign In With Your Credentials.", 201
+        
+
 
 def validate(username, password, email, signUp):
     # username check
