@@ -64,14 +64,16 @@ def login():
     accounts = stockAndPrices.accounts
     userInfo = {
         "username": user,
-        "password": pwd
+        "password": guard.hash_password(pwd)
     }
     sanitize(userInfo)
     if accounts.find_one(userInfo) is None:
-        return "Incorrect Username or Password!", 401
+        return {'access_token' : None}, 401
+        # return "Incorrect Username or Password!", 401
     else:
-        return "Login Successfully", 200
-        
+        ret = {'access_token': guard.encode_jwt_token(userInfo)}
+        return ret, 200
+        # return "Login Successfully", 200
 
 @app.route('/signUp', methods=['POST', 'GET'])
 def signUp():
@@ -97,11 +99,13 @@ def signUp():
     elif accounts.find_one(emailInfo):
         return "Email already exist! Try another email.", 200
     else:
-        new_user = accounts.insert_one({
+        new_user = {
             "username": user,
-            "password": pwd,
+            "password": guard.hash_password(pwd),
             "email": email
-        })
+        }
+        sanitize(new_user)
+        created = accounts.insert_one(new_user)
         return "Account Created. Please Sign In With Your Credentials.", 201
         
 
@@ -123,6 +127,25 @@ def validate(username, password, email, signUp):
         if not re.search('^[^@]+@[^@]+\.[^@]+$', email):
             return "Incorrect email format"
     return "true"
+
+# Refresh JWT token
+@app.route('/refresh', methods=['POST'])
+def refresh():
+    print("refresh request")
+    old_token = request.get_data()
+    new_token = guard.refresh_jwt_token(old_token)
+    ret = {'access_token': new_token}
+    return ret, 200
+
+# interest List #
+@app.route('/interest_list')
+@flask_praetorian.auth_required
+def protected():
+    try:
+        return {'message': f'protected endpoint (allowed user {flask_praetorian.current_user().username})'}, 200
+    except Exception as e:
+        return "Login to check Interest List", 401
+
 
 if __name__ == "__main__":
     app.run(host=app.config["HOST"], port=app.config["PORT"], debug = app.config["DEBUG"], use_reloader=False)
