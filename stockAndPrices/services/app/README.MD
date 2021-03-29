@@ -8,6 +8,7 @@ Python version : 3.79
 "pip install pymemcache=3.4.0"          to install python pymemcache package
 "pip install mongosanitizer=0.0.1"      to install Python Mongo Sanitizer
 "pip install flask-praetorian=1.0.0"    to install Flask-Praetorian package
+"pip install mongoengine==0.22.1"       to install MongoEngine package
 
 
 "python -m pip install --upgrade pip"   to upgrade pip if needed

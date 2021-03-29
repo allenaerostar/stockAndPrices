@@ -1,5 +1,6 @@
-    import React from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { login } from '../auth/auth';
 import Button from '../common/components/button/button';
 //let validation = require('../common/util/validation.js');
 
@@ -26,10 +27,17 @@ class LoginForm extends React.Component{
             body: formData,
         };
         fetch(loginUrl, requestOptions)
-            .then(res => res.text())
-            .then(
-                (data)=> {
-                this.setState({formError: data})
+            .then(res => res.json())
+            .then(token =>{
+                console.log(token)
+                if (token.access_token) {
+                    login(token)
+                    console.log("Login Successfully")
+                }else if (token.message){
+                    this.setState({formError: token.message})
+                }else{
+                    this.setState({formError: "Please type in correct username/password"})
+                }
             },
             (error) => {
                 console.log("Error:", error)
