@@ -100,6 +100,7 @@ def refresh():
     ret = {'access_token': new_token}
     return ret, 200
 
+
 # interest List #
 @app.route('/interest_list')
 @flask_praetorian.auth_required
