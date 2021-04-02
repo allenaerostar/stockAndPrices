@@ -8,11 +8,6 @@ def test_home_page(client):
     assert res.data == b'<h1>Home Page</h1>'
 
 
-# GET request to Login Page
-def test_login_page(client):
-    res = client.get('/login')
-    assert res.status_code == 200
-    assert res.data == b'<h1>Login Page</h1>'
 
 # TODO: SETUP running instance of database in order to execute these commented out tests
 """ # POST request to Login Page
@@ -28,12 +23,6 @@ def test_logged_in_failed(client):
     assert res.status_code == 401
     assert res.data == b"Incorrect Username or Password!" """
 
-
-# GET request to signUp Page
-def test_signUo_page(client):
-    res = client.get('/signUp')
-    assert res.status_code == 200
-    assert res.data == b'<h1>Sign Up Page</h1>'
 
 # TODO: SETUP running instance of database in order to execute these commented out tests
 """ 
