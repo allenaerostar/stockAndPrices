@@ -66,12 +66,12 @@ class LoginForm extends React.Component{
     render() {
         const ToSignUp = this.state.redirectToSignUp;
         const ToGame = this.state.redirectToGame;
-        let int = this.state.redirectToInt;
+        const ToInt = this.state.redirectToInt;
         if (true === ToSignUp) {
             return <Redirect to="/signUp" />
         } else if (true === ToGame) {
             return <Redirect to="/gameSearch" />
-        } else if (true === int) {
+        } else if (true === ToInt) {
             return <Redirect to='/interest' />
         }
 
