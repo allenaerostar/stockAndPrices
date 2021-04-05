@@ -32,7 +32,6 @@ class SignUpForm extends React.Component{
             fetch(signUpUrl, requestOptions)
                 .then(res => res.text())
                 .then(data => {
-                    //(data) => {
                     if (data === "Account Created. Please Sign In With Your Credentials.") {
                         this.setState({redirectToSignIn: true})
                     }else{
