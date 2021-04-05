@@ -6,7 +6,7 @@ Python version : 3.79
 "pip install flask_swagger_ui==3.36.0"  to install Swagger UI package
 "pip install requests==2.25.0"          to install python requests package
 "pip install pymemcache=3.4.0"          to install python pymemcache package
-"pip install flask-praetorian=1.0.0"    to install Flask-Praetorian package
+"pip install flask-praetorian==1.0.0"    to install Flask-Praetorian package
 "pip install mongoengine==0.22.1"       to install MongoEngine package
 
 
