@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { login } from '../auth/auth';
 import Button from '../common/components/button/button';
 //let validation = require('../common/util/validation.js');
 
@@ -9,10 +10,14 @@ class LoginForm extends React.Component{
         super(props);
         this.state = {
             redirectToSignUp: false,
+            redirectToGame: false,
+            redirectToInt: false,
             formError: ""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
+        this.handleGameSearch = this.handleGameSearch.bind(this);
+        this.handleIntList = this.handleIntList.bind(this);
     }
 
     handleSubmit(event) {
@@ -26,10 +31,17 @@ class LoginForm extends React.Component{
             body: formData,
         };
         fetch(loginUrl, requestOptions)
-            .then(res => res.text())
-            .then(
-                (data)=> {
-                this.setState({formError: data})
+            .then(res => res.json())
+            .then(token =>{
+                console.log(token)
+                if (token.access_token) {
+                    login(token)
+                    console.log("Login Successfully")
+                }else if (token.message){
+                    this.setState({formError: token.message})
+                }else{
+                    this.setState({formError: "Please type in correct username/password"})
+                }
             },
             (error) => {
                 console.log("Error:", error)
@@ -41,11 +53,28 @@ class LoginForm extends React.Component{
         this.setState({redirectToSignUp: true})
     }
 
+    handleGameSearch(event){
+        event.preventDefault();
+        this.setState({redirectToGame: true})
+    }
+
+    handleIntList(event){
+        event.preventDefault();
+        this.setState({redirectToInt: true})
+    }
+
     render() {
-        const redirectTo = this.state.redirectToSignUp;
-        if (redirectTo === true) {
+        const ToSignUp = this.state.redirectToSignUp;
+        const ToGame = this.state.redirectToGame;
+        const ToInt = this.state.redirectToInt;
+        if (true === ToSignUp) {
             return <Redirect to="/signUp" />
+        } else if (true === ToGame) {
+            return <Redirect to="/gameSearch" />
+        } else if (true === ToInt) {
+            return <Redirect to='/interest' />
         }
+
         return (
             <form name="loginForm" onSubmit={this.handleSubmit}>
                 <div>
@@ -71,6 +100,15 @@ class LoginForm extends React.Component{
                 <div> 
                     Create an account?
                     <Button labelText="Sign Up" onClick={this.handleSignUp}>
+                    </Button>
+                </div>
+                <div>
+                    Find Games Now!
+                    <Button labelText="Games" onClick={this.handleGameSearch}>
+                    </Button>
+                </div>
+                <div>
+                    <Button labelText="Interest" onClick={this.handleIntList}>
                     </Button>
                 </div>
             </form>

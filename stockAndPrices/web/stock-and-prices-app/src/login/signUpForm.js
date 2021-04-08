@@ -21,7 +21,7 @@ class SignUpForm extends React.Component{
         let pwd = event.target.elements.password.value
         let ema = event.target.elements.email.value
         let validate = validation.validateFormFields(usname, pwd, ema)
-        if(validate === "true") {
+        if("true" === validate) {
             const signUpUrl = "/signUp";
             const formData = new FormData(event.target);
             const requestOptions = {
@@ -31,12 +31,12 @@ class SignUpForm extends React.Component{
             };
             fetch(signUpUrl, requestOptions)
                 .then(res => res.text())
-                .then(
-                    (data) => {
+                .then(data => {
                     if (data === "Account Created. Please Sign In With Your Credentials.") {
                         this.setState({redirectToSignIn: true})
+                    }else{
+                        this.setState({formError: data})
                     }
-                    this.setState({formError: data})
                 },
                 (error) => {
                     console.log("Error: ", error)
