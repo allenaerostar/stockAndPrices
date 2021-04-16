@@ -7,7 +7,9 @@ from games import games_blueprint
 import logging, re
 from configuration.Loggings import log_fname, log_fmat, log_level
 import flask_praetorian
-from util.dbUtility import User
+from util.dbUtility import User, InterestList, Interest
+import json
+
 
 app = Flask(__name__)
 app.config.from_pyfile("configuration/Config.py")
@@ -15,10 +17,12 @@ app.config.from_pyfile("configuration/Config.py")
 
 # pylint: disable=no-member
 # Logging #
+'''
 logging.basicConfig(filename=log_fname,
                     format=log_fmat)
 app.logger.setLevel(log_level)
-
+'''
+logging.basicConfig(format=log_fmat)
 # Flask Praetorian / Guard #
 guard = flask_praetorian.Praetorian()
 guard.init_app(app, User)
@@ -53,9 +57,10 @@ def login():
     pwd = request.form.get('password')
     val = validate(user,pwd,'',False)
     if successful != val:
-        return {'message': val}, 200
+        return {'validation': val}, 200
     userInfo = guard.authenticate(user, pwd)
     return {'access_token': guard.encode_jwt_token(userInfo)}, 200
+
 
 @app.route('/signUp', methods=['POST'])
 def signUp():
@@ -71,6 +76,7 @@ def signUp():
         return "Email already exist! Try another email.", 200
     else:
         User(username=user, password=guard.hash_password(pwd), email=email).save()
+        InterestList(username=user, interest_list=[]).save()
         return "Account Created. Please Sign In With Your Credentials.", 201
 
 
@@ -102,14 +108,58 @@ def refresh():
 
 
 # interest List #
-@app.route('/interest_list')
+@app.route('/interestList')
 @flask_praetorian.auth_required
-def protected():
+def showInterestList():
     try:
-        return {'message': f'protected endpoint (allowed user {flask_praetorian.current_user().username})'}, 200
-    except Exception:
-        return "Login to check Interest List", 401
+        user = flask_praetorian.current_user().username
+        userDB = InterestList.objects(username=user).get()
+        if not userDB:
+            app.logger.warning('early return for empty user')
+            return {'message': 'early return for empty user'}, 200
+
+        userIntList = userDB.interest_list
+        if not userIntList:
+            return {'message': 'early return for empty interest'}, 200
+        ret = []
+        for lst in userIntList:
+            tmp = {}
+            tmp['gid'], tmp['gname'], tmp['gprice'] = lst.gid, lst.gname, lst.gprice
+            tmp['sid'], tmp['discount'] = lst.sid, lst.discount
+            ret.append(tmp)
+        return {'ret': ret}, 200
+    except Exception as e:
+        app.logger.error(e)
+        return {'message': 'Login Again'}, 401
+
+
+@app.route('/addInterest', methods=['GET', 'POST'])
+@flask_praetorian.auth_required
+def addToInterestList():
+    data = request.get_json(force=True)
+    gid, gname, gprice = data.get('gid', None), data.get('gname', None), data.get('gprice', None)
+    sid, disc = data.get('sid', None), data.get('discount', None)
+    try:
+        user = flask_praetorian.current_user().username
+        if not InterestList.objects(username=user):
+            return {'message': 'cannot find user, login again'}, 200
+        userIntList = InterestList.objects(username=user).get()
+        intr = Interest(gid=gid, sid=sid, gname=gname, gprice=gprice, discount=disc)
+        if InterestList.objects(username=user, interest_list=intr):
+            return {'message': 'already in interest list'}
+        userIntList.interest_list.append(intr)
+        userIntList.save()
+        return {'message': f'added {gname} into interest list'}, 200
+    except Exception as e:
+        app.logger.error(e)
+        return {'message': 'Login Again'}, 401
 
 
 if __name__ == "__main__":
     app.run(host=app.config["HOST"], port=app.config["PORT"], debug = app.config["DEBUG"], use_reloader=False)
+
+"""
+delete button on interest
+interest UI - 
+interest list in memory
+"""

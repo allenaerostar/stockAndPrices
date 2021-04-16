@@ -271,7 +271,7 @@
                         ]
                     }
                 },
-                "example": "{\n  GAMEID1:{\n    name: GAMENAME, \n    stores: [ \n      {cur_price: CURPRICE, org_price: ORGPRICE, saving: SAVING%, store: SOMESTORE},\n       ...\n    ]\n  }, \n  GAMEID2:{\n    ...\n  },\n  ....\n}"
+                "example": "{\n  GAMEID1:{\n    name: GAMENAME, \n    stores: [ \n      {cur_price: CURPRICE, org_price: ORGPRICE, saving: SAVING%, store: STORENAME, store_id: StoreID},\n       ...\n    ]\n  }, \n  GAMEID2:{\n    ...\n  },\n  ....\n}"
             },
             "storesForGame": {
                 "type": "object",

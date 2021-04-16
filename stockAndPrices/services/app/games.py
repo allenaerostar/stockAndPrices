@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request
 import requests, json
 from pymemcache.client import base
 from flask import current_app
-
+from callapi import data
 games_blueprint = Blueprint("games", __name__, url_prefix="/games")
 api_url = "https://www.cheapshark.com/api/1.0"
 
@@ -15,16 +15,17 @@ client = base.Client(('memcached', 11211))
 # /title?name=somename
 @games_blueprint.route('/title')
 def gamePriceByTitle():
+    #return data
     game_title = request.args.get('name')
     url = api_url + f"/games?title={game_title}"
     payload, files, headers = {}, {}, {}
     response = requests.request("GET", url, headers=headers, data=payload, files=files)
     if response.status_code != 200:
         current_app.logger.warning(f"Get request from {url} failed.")
-        return "No Result", 500
+        return {'message': 'Sorry. No Result due to Server Error'}, 500
     resp = json.loads(response.text)
     if not resp:
-        return "No Result!"
+        return {'message': f'No Result for: {game_title}'}, 200
 
     count, all_ids, all_prices = 0, '', {}
     # retrieve all gameids from searching that game
@@ -39,6 +40,7 @@ def gamePriceByTitle():
             count, all_ids = 0, ''
     if all_ids:
         findGamePriceById(all_ids, all_prices)
+    
     return all_prices
 
 
@@ -71,6 +73,7 @@ def findGamePriceById(game_ids, prices):
             elif all_stores[deal['storeID']][1] == '0':
                 continue
             store_info = {}
+            store_info['store_id'] = deal['storeID']
             store_info["store"] = all_stores[deal['storeID']][0]
             store_info["cur_price"] = deal['price']
             store_info["org_price"] = deal['retailPrice']

@@ -37,8 +37,8 @@ class LoginForm extends React.Component{
                 if (token.access_token) {
                     login(token)
                     console.log("Login Successfully")
-                }else if (token.message){
-                    this.setState({formError: token.message})
+                }else if (token.validation){
+                    this.setState({formError: token.validation})
                 }else{
                     this.setState({formError: "Please type in correct username/password"})
                 }
@@ -64,9 +64,9 @@ class LoginForm extends React.Component{
     }
 
     render() {
-        const ToSignUp = this.state.redirectToSignUp;
-        const ToGame = this.state.redirectToGame;
-        const ToInt = this.state.redirectToInt;
+        let ToSignUp = this.state.redirectToSignUp;
+        let ToGame = this.state.redirectToGame;
+        let ToInt = this.state.redirectToInt;
         if (true === ToSignUp) {
             return <Redirect to="/signUp" />
         } else if (true === ToGame) {
